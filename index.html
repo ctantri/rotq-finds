@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple web app for collating and formatting daily grocery finds for ROTQ">
+    <link rel="stylesheet" href="./style.css">
+    <title>ROTQ Finds</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <section>
+        <form id="players">
+          <label for="player-upload">Upload the list of players and their guilds as a .csv file:</label>
+          <input type="file" id="player-upload" name="player-upload" accept="text/csv" />
+          <button type="button" id="load-players-button">Load players</button>
+        </form>
+      </section>
+      <section>
+        <form id="finds">
+          <label for="player-select">Player:</label>
+          <select id="player-select" name="player">
+            <option value="">(Select player)</option>
+          </select>
+          <fieldset id="item-set">
+            <legend>Item:</legend>
+            
+          </fieldset>
+        </form>
+      </section>
+    </main>
+    <footer></footer>
+    <script src="./script.js"></script>
+  </body>
+</html>
