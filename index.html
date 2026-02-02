@@ -11,22 +11,33 @@
     <header></header>
     <main>
       <section>
-        <form id="players">
-          <label for="player-upload">Upload the list of players and their guilds as a .csv file:</label>
-          <input type="file" id="player-upload" name="player-upload" accept="text/csv" />
-          <button type="button" id="load-players-button">Load players</button>
+        <form id="load-players-form">
+          <fieldset>
+            <legend>Add a list of players: </legend>
+            <label>Format: <i>player,guild</i> (no space around the comma), one player per line.</label>
+            <textarea id="players-textarea" name="players" rows="3" cols="25"></textarea>
+            <button type="button" id="load-players-button">Add players and guilds</button>
+            <label for="guild">My guild: </label>
+            <select id="guild" name="guild" required>
+              <option value="">(Select guild)</option>
+            </select>
+          </fieldset>
         </form>
       </section>
       <section>
-        <form id="finds">
-          <label for="player-select">Player:</label>
-          <select id="player-select" name="player">
-            <option value="">(Select player)</option>
-          </select>
-          <fieldset id="item-set">
-            <legend>Item:</legend>
-            
+        <form id="finds-form">
+          <fieldset>
+            <legend>Find:</legend>
+            <label for="player">Player: </label>
+            <select id="player" name="player" required>
+              <option value="">(Select player)</option>
+            </select>
+            <ul id="item-list"></ul>
+            <label for="price">Price: </label>
+            <input type="number" id="price" name="price" min="10" max="100" required/>
+            <button type="submit">Save</button>
           </fieldset>
+          <button type="button" id="summarise-button">Generate summary</button>
         </form>
       </section>
     </main>
