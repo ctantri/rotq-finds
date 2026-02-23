@@ -8,23 +8,31 @@
     <title>ROTQ Finds</title>
   </head>
   <body>
-    <header></header>
+    <nav id="navbar">
+      <p id="nav-players">Players</p>
+      <p id="nav-finds">Finds</p>
+      <p id="nav-summary">Summary</p>
+    </nav>
     <main>
-      <section>
-        <form id="load-players-form">
+      <section id="Players-section">
+        <form id="players-form">
           <fieldset>
-            <legend>Add a list of players: </legend>
-            <label>Format: <i>player,guild</i> (no space around the comma), one player per line.</label>
-            <textarea id="players-textarea" name="players" rows="3" cols="25"></textarea>
-            <button type="button" id="load-players-button">Add players and guilds</button>
-            <label for="guild">My guild: </label>
-            <select id="guild" name="guild" required>
-              <option value="">(Select guild)</option>
-            </select>
+            <legend>Players and guilds: </legend>
+            <div>
+              <label>Format: <i>player,guild</i> (no space around the comma), one player per line.</label>
+              <textarea id="players-textarea" name="players" rows="3" cols="25"></textarea>
+              <button type="button" id="load-players-button">Add players and guilds</button>
+            </div>
+            <div>
+              <label for="guild">Select your guild: </label>
+              <select id="guild" name="guild" required>
+                <option value="">(Select guild)</option>
+              </select>
+            </div>
           </fieldset>
         </form>
       </section>
-      <section>
+      <section id="Finds-section" class="hidden">
         <form id="finds-form">
           <fieldset>
             <legend>Find:</legend>
@@ -32,13 +40,16 @@
             <select id="player" name="player" required>
               <option value="">(Select player)</option>
             </select>
-            <ul id="item-list"></ul>
             <label for="price">Price: </label>
             <input type="number" id="price" name="price" min="10" max="100" required/>
             <button type="submit">Save</button>
+            <ul id="item-list"></ul>
           </fieldset>
-          <button type="button" id="summarise-button">Generate summary</button>
         </form>
+      </section>
+      <section id="Summary-section" class="hidden">
+        <button type="button" id="summarise-button">Generate summary</button>
+        <textarea id="summary-text" rows="20" cols="50"></textarea>
       </section>
     </main>
     <footer></footer>

@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 1rem;
+  --color-primary: #4A5759;
+  --color-secondary: #B0C4B1;
+  --color-accent: #F4ACB7;
+  --color-text: #DEDBD2;
+  --offset: 3em;
+  --navbar-width: 12em;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#navbar {
+  position: fixed;
+  top: 0;
+  left: var(--offset);
+  width: var(--navbar-width);
+  height: 100%;
+  background-color: var(--color-secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1em;
+}
+
+#navbar > p {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--color-primary);
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+main {
+  position: absolute;
+  top:0;
+  left: calc(2 * var(--offset) + var(--navbar-width));
+  width: calc(100% - (3 * var(--offset) + var(--navbar-width)));
+}
+
+section {
+  padding: 1em;
+}
+
+textarea {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+#players-textarea {
+  display: block;
+  margin: 1em;
+  padding: 0.25em;
+}
+
+#item-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0.5em;
+}
+
+#item-list label {
+  padding: 0.5em;
+}
+
+span {
+  font-size: 0.8em;
+  color: var(--color-secondary);
+}
+
+.hidden {
+  display: none;
+}

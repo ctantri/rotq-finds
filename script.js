@@ -7,45 +7,50 @@ const slctPlayer = document.getElementById("player");
 const fldItem = document.getElementById("item");
 const ulItemList = document.getElementById("item-list");
 const inPrice = document.getElementById("price");
+const txtSummary = document.getElementById("summary-text");
+const sections = document.getElementsByTagName("section");
+const navPlayers = document.getElementById("nav-players");
+const navFinds = document.getElementById("nav-finds");
+const navSummary = document.getElementById("nav-summary");
 let myGuild = "";
 let players = {};
 let finds = {};
 
 const items = {
-  "violet": {"group": "flowers", "tier": "green", "name": "violet", "required": 1, "min": 10},
-  "tofu": {"group": "ingredients", "tier": "green", "name": "tofu", "required": 1, "min": 10},
-  "rice": {"group": "ingredients", "tier": "green", "name": "rice", "required": 1, "min": 10},
-  "noodles": {"group": "ingredients", "tier": "green", "name": "noodles", "required": 1, "min": 10},
-  "nut": {"group": "ingredients", "tier": "green", "name": "nut", "required": 1, "min": 10},
-  "egg": {"group": "ingredients", "tier": "green", "name": "egg", "required": 1, "min": 10},
-  "duck egg": {"group": "ingredients", "tier": "green", "name": "duck egg", "required": 1, "min": 10},
-  "seasoning": {"group": "ingredients", "tier": "green", "name": "seasoning", "required": 1, "min": 10},
-  "apple": {"group": "ingredients", "tier": "green", "name": "apple", "required": 1, "min": 10},
-  "scallion": {"group": "ingredients", "tier": "green", "name": "scallion", "required": 1, "min": 10},
-  "tomato": {"group": "ingredients", "tier": "green", "name": "tomato", "required": 1, "min": 10},
-  "flour": {"group": "ingredients", "tier": "blue", "name": "flour", "required": 2, "min": 20},
-  "wine": {"group": "ingredients", "tier": "blue", "name": "wine", "required": 2, "min": 20},
-  "pork": {"group": "ingredients", "tier": "blue", "name": "pork", "required": 2, "min": 20},
-  "pepper": {"group": "ingredients", "tier": "blue", "name": "pepper", "required": 2, "min": 20},
-  "cabbage": {"group": "ingredients", "tier": "blue", "name": "cabbage", "required": 2, "min": 20},
-  "mushroom": {"group": "ingredients", "tier": "blue", "name": "mushroom", "required": 2, "min": 20},
-  "bok choy": {"group": "ingredients", "tier": "blue", "name": "bok choy", "required": 2, "min": 20},
-  "carrot": {"group": "ingredients", "tier": "blue", "name": "carrot", "required": 2, "min": 20},
-  "chicken": {"group": "ingredients", "tier": "purple", "name": "chicken", "required": 2, "min": 30},
-  "shrimps": {"group": "ingredients", "tier": "purple", "name": "shrimps", "required": 2, "min": 30},
-  "roast pork": {"group": "ingredients", "tier": "purple", "name": "roast pork", "required": 2, "min": 30},
-  "eggplant": {"group": "ingredients", "tier": "purple", "name": "eggplant", "required": 2, "min": 50},
-  "peach petal": {"group": "ingredients", "tier": "purple", "name": "peach petal", "required": 2, "min": 50},
-  "beef": {"group": "ingredients", "tier": "orange", "name": "beef", "required": 2, "min": 50},
-  "mutton": {"group": "ingredients", "tier": "orange", "name": "mutton", "required": 2, "min": 50},
-  "duck": {"group": "ingredients", "tier": "orange", "name": "duck", "required": 2, "min": 50},
-  "spice": {"group": "ingredients", "tier": "orange", "name": "spice", "required": 2, "min": 50},
-  "herbs": {"group": "ingredients", "tier": "orange", "name": "herbs", "required": 1, "min": 60},
-  "glass bait": {"group": "baits", "tier": "purple", "name": "glass bait", "required": 3, "min": 40},
-  "niblet": {"group": "baits", "tier": "purple", "name": "niblet", "required": 3, "min": 40},
-  "silver bait": {"group": "baits", "tier": "purple", "name": "silver bait", "required": 3, "min": 45},
-  "squid": {"group": "baits", "tier": "orange", "name": "squid", "required": 3, "min": 50},
-  "jerky": {"group": "baits", "tier": "orange", "name": "jerky", "required": 3, "min": 60}
+  "violet": {"group": "FLOWERS", "name": "violet", "required": 1, "min": 10},
+  "tofu": {"group": "INGREDIENTS: GREEN", "name": "tofu", "required": 1, "min": 10},
+  "rice": {"group": "INGREDIENTS: GREEN", "name": "rice", "required": 1, "min": 10},
+  "noodles": {"group": "INGREDIENTS: GREEN", "name": "noodles", "required": 1, "min": 10},
+  "nut": {"group": "INGREDIENTS: GREEN", "name": "nut", "required": 1, "min": 10},
+  "egg": {"group": "INGREDIENTS: GREEN", "name": "egg", "required": 1, "min": 10},
+  "duck egg": {"group": "INGREDIENTS: GREEN", "name": "duck egg", "required": 1, "min": 10},
+  "seasoning": {"group": "INGREDIENTS: GREEN", "name": "seasoning", "required": 1, "min": 10},
+  "apple": {"group": "INGREDIENTS: GREEN", "name": "apple", "required": 1, "min": 10},
+  "scallion": {"group": "INGREDIENTS: GREEN", "name": "scallion", "required": 1, "min": 10},
+  "tomato": {"group": "INGREDIENTS: GREEN", "name": "tomato", "required": 1, "min": 10},
+  "flour": {"group": "INGREDIENTS: BLUE", "name": "flour", "required": 2, "min": 20},
+  "wine": {"group": "INGREDIENTS: BLUE", "name": "wine", "required": 2, "min": 20},
+  "pork": {"group": "INGREDIENTS: BLUE", "name": "pork", "required": 2, "min": 20},
+  "pepper": {"group": "INGREDIENTS: BLUE", "name": "pepper", "required": 2, "min": 20},
+  "cabbage": {"group": "INGREDIENTS: BLUE", "name": "cabbage", "required": 2, "min": 20},
+  "mushroom": {"group": "INGREDIENTS: BLUE", "name": "mushroom", "required": 2, "min": 20},
+  "bok choy": {"group": "INGREDIENTS: BLUE", "name": "bok choy", "required": 2, "min": 20},
+  "carrot": {"group": "INGREDIENTS: BLUE", "name": "carrot", "required": 2, "min": 20},
+  "chicken": {"group": "INGREDIENTS: PURPLE", "name": "chicken", "required": 2, "min": 30},
+  "shrimps": {"group": "INGREDIENTS: PURPLE", "name": "shrimps", "required": 2, "min": 30},
+  "roast pork": {"group": "INGREDIENTS: PURPLE", "name": "roast pork", "required": 2, "min": 30},
+  "eggplant": {"group": "INGREDIENTS: PURPLE", "name": "eggplant", "required": 2, "min": 50},
+  "peach petal": {"group": "INGREDIENTS: PURPLE", "name": "peach petal", "required": 2, "min": 50},
+  "beef": {"group": "INGREDIENTS: ORANGE", "name": "beef", "required": 2, "min": 50},
+  "mutton": {"group": "INGREDIENTS: ORANGE", "name": "mutton", "required": 2, "min": 50},
+  "duck": {"group": "INGREDIENTS: ORANGE", "name": "duck", "required": 2, "min": 50},
+  "spice": {"group": "INGREDIENTS: ORANGE", "name": "spice", "required": 2, "min": 50},
+  "herbs": {"group": "INGREDIENTS: ORANGE", "name": "herbs", "required": 1, "min": 60},
+  "glass bait": {"group": "BAITS", "name": "glass bait", "required": 3, "min": 40},
+  "niblet": {"group": "BAITS", "name": "niblet", "required": 3, "min": 40},
+  "silver bait": {"group": "BAITS", "name": "silver bait", "required": 3, "min": 45},
+  "squid": {"group": "BAITS", "name": "squid", "required": 3, "min": 50},
+  "jerky": {"group": "BAITS", "name": "jerky", "required": 3, "min": 60}
 };
 
 function parseData(data) {
@@ -168,7 +173,11 @@ function save(event) {
     player = `our ${player}`;
 
   if (price in finds[item])
-    finds[item][price].push(player);
+    // List our own guild members first
+    if (player.indexOf("our") == 0)
+      finds[item][price].unshift(player);
+    else
+      finds[item][price].push(player);
   else
     finds[item][price] = [player];
 
@@ -177,23 +186,25 @@ function save(event) {
   const span = document.getElementById(`item-${item}-summary`);
   span.innerText = generateItemSummary(item);
 
+  const option = document.getElementById(`item-${item}`);
+  option.checked = false;
+
   event.preventDefault();
 }
 
 function generateItemSummary(item) {
   let summary = "";
-  let playerCount = 0;
-  const required = items[item]["required"];
 
-  for (let price in finds[item]) {
-    playerCount += finds[item][price].length;
-    summary += `${price} (${finds[item][price].join(", ")})`;
-    if (playerCount >= required) {
-      summary += ";";
-      break;
-    } else {
-      summary += " & ";
-    }
+  const min = items[item]["min"];
+  const cheapest = getLowestPrice(item);
+  const nextCheapest = Object.keys(finds[item])[1];
+  const notEnoughCheapest = finds[item][cheapest].length < 2;
+  
+  summary += `${cheapest} (${finds[item][cheapest].join(", ")})`;
+  
+  if (cheapest == min && nextCheapest && notEnoughCheapest) {
+    if (nextCheapest == min + 1)
+      summary += ` & ${nextCheapest} (${finds[item][nextCheapest].join(", ")})`;
   }
 
   return summary;
@@ -204,11 +215,29 @@ function generateSummary() {
 
   for (let item in items)
     if (Object.keys(finds[item]).length > 0)
-      summary += `${item} ${generateItemSummary(item)}\n`;
+      summary += `${item} ${generateItemSummary(item)};\n`;
 
-  console.log(summary);
+  txtSummary.value = summary;
 }
 
+function showSection(event) {
+  const clicked = event.currentTarget.innerText;
+
+  for (let section in sections) {
+    const id = sections[section].id;
+    if (id) {
+      if (id.indexOf(clicked) == 0)
+        sections[section].classList.remove("hidden");
+      else
+        sections[section].classList.add("hidden");
+    }
+  }
+}
+
+
+navPlayers.addEventListener("click", showSection);
+navFinds.addEventListener("click", showSection);
+navSummary.addEventListener("click", showSection);
 btnLoadPlayers.addEventListener("click", loadPlayers);
 frmFinds.addEventListener("submit", save);
 btnSummarise.addEventListener("click", generateSummary);
