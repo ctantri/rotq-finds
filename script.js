@@ -15,42 +15,43 @@ const navSummary = document.getElementById("nav-summary");
 let myGuild = "";
 let players = {};
 let finds = {};
+let groups = {};
 
 const items = {
-  "violet": {"group": "FLOWERS", "name": "violet", "required": 1, "min": 10},
-  "tofu": {"group": "INGREDIENTS: GREEN", "name": "tofu", "required": 1, "min": 10},
-  "rice": {"group": "INGREDIENTS: GREEN", "name": "rice", "required": 1, "min": 10},
-  "noodles": {"group": "INGREDIENTS: GREEN", "name": "noodles", "required": 1, "min": 10},
-  "nut": {"group": "INGREDIENTS: GREEN", "name": "nut", "required": 1, "min": 10},
-  "egg": {"group": "INGREDIENTS: GREEN", "name": "egg", "required": 1, "min": 10},
-  "duck egg": {"group": "INGREDIENTS: GREEN", "name": "duck egg", "required": 1, "min": 10},
-  "seasoning": {"group": "INGREDIENTS: GREEN", "name": "seasoning", "required": 1, "min": 10},
-  "apple": {"group": "INGREDIENTS: GREEN", "name": "apple", "required": 1, "min": 10},
-  "scallion": {"group": "INGREDIENTS: GREEN", "name": "scallion", "required": 1, "min": 10},
-  "tomato": {"group": "INGREDIENTS: GREEN", "name": "tomato", "required": 1, "min": 10},
-  "flour": {"group": "INGREDIENTS: BLUE", "name": "flour", "required": 2, "min": 20},
-  "wine": {"group": "INGREDIENTS: BLUE", "name": "wine", "required": 2, "min": 20},
-  "pork": {"group": "INGREDIENTS: BLUE", "name": "pork", "required": 2, "min": 20},
-  "pepper": {"group": "INGREDIENTS: BLUE", "name": "pepper", "required": 2, "min": 20},
-  "cabbage": {"group": "INGREDIENTS: BLUE", "name": "cabbage", "required": 2, "min": 20},
-  "mushroom": {"group": "INGREDIENTS: BLUE", "name": "mushroom", "required": 2, "min": 20},
-  "bok choy": {"group": "INGREDIENTS: BLUE", "name": "bok choy", "required": 2, "min": 20},
-  "carrot": {"group": "INGREDIENTS: BLUE", "name": "carrot", "required": 2, "min": 20},
-  "chicken": {"group": "INGREDIENTS: PURPLE", "name": "chicken", "required": 2, "min": 30},
-  "shrimps": {"group": "INGREDIENTS: PURPLE", "name": "shrimps", "required": 2, "min": 30},
-  "roast pork": {"group": "INGREDIENTS: PURPLE", "name": "roast pork", "required": 2, "min": 30},
-  "eggplant": {"group": "INGREDIENTS: PURPLE", "name": "eggplant", "required": 2, "min": 50},
-  "peach petal": {"group": "INGREDIENTS: PURPLE", "name": "peach petal", "required": 2, "min": 50},
-  "beef": {"group": "INGREDIENTS: ORANGE", "name": "beef", "required": 2, "min": 50},
-  "mutton": {"group": "INGREDIENTS: ORANGE", "name": "mutton", "required": 2, "min": 50},
-  "duck": {"group": "INGREDIENTS: ORANGE", "name": "duck", "required": 2, "min": 50},
-  "spice": {"group": "INGREDIENTS: ORANGE", "name": "spice", "required": 2, "min": 50},
-  "herbs": {"group": "INGREDIENTS: ORANGE", "name": "herbs", "required": 1, "min": 60},
-  "glass bait": {"group": "BAITS", "name": "glass bait", "required": 3, "min": 40},
-  "niblet": {"group": "BAITS", "name": "niblet", "required": 3, "min": 40},
-  "silver bait": {"group": "BAITS", "name": "silver bait", "required": 3, "min": 45},
-  "squid": {"group": "BAITS", "name": "squid", "required": 3, "min": 50},
-  "jerky": {"group": "BAITS", "name": "jerky", "required": 3, "min": 60}
+  "violet": {"group": "FLOWERS", "name": "violet", "min": 10},
+  "tofu": {"group": "INGREDIENTS: GREEN", "name": "tofu", "min": 10},
+  "rice": {"group": "INGREDIENTS: GREEN", "name": "rice", "min": 10},
+  "noodles": {"group": "INGREDIENTS: GREEN", "name": "noodles", "min": 10},
+  "nut": {"group": "INGREDIENTS: GREEN", "name": "nut", "min": 10},
+  "egg": {"group": "INGREDIENTS: GREEN", "name": "egg", "min": 10},
+  "duck egg": {"group": "INGREDIENTS: GREEN", "name": "duck egg", "min": 10},
+  "seasoning": {"group": "INGREDIENTS: GREEN", "name": "seasoning", "min": 10},
+  "apple": {"group": "INGREDIENTS: GREEN", "name": "apple", "min": 10},
+  "scallion": {"group": "INGREDIENTS: GREEN", "name": "scallion", "min": 10},
+  "tomato": {"group": "INGREDIENTS: GREEN", "name": "tomato", "min": 10},
+  "flour": {"group": "INGREDIENTS: BLUE", "name": "flour", "min": 20},
+  "wine": {"group": "INGREDIENTS: BLUE", "name": "wine", "min": 20},
+  "pork": {"group": "INGREDIENTS: BLUE", "name": "pork", "min": 20},
+  "pepper": {"group": "INGREDIENTS: BLUE", "name": "pepper", "min": 20},
+  "cabbage": {"group": "INGREDIENTS: BLUE", "name": "cabbage", "min": 20},
+  "mushroom": {"group": "INGREDIENTS: BLUE", "name": "mushroom", "min": 20},
+  "bok choy": {"group": "INGREDIENTS: BLUE", "name": "bok choy", "min": 20},
+  "carrot": {"group": "INGREDIENTS: BLUE", "name": "carrot", "min": 20},
+  "chicken": {"group": "INGREDIENTS: PURPLE", "name": "chicken", "min": 30},
+  "shrimps": {"group": "INGREDIENTS: PURPLE", "name": "shrimps", "min": 30},
+  "roast pork": {"group": "INGREDIENTS: PURPLE", "name": "roast pork", "min": 30},
+  "eggplant": {"group": "INGREDIENTS: PURPLE", "name": "eggplant", "min": 50},
+  "peach petal": {"group": "INGREDIENTS: PURPLE", "name": "peach petal", "min": 50},
+  "beef": {"group": "INGREDIENTS: ORANGE", "name": "beef", "min": 50},
+  "mutton": {"group": "INGREDIENTS: ORANGE", "name": "mutton", "min": 50},
+  "duck": {"group": "INGREDIENTS: ORANGE", "name": "duck", "min": 50},
+  "spice": {"group": "INGREDIENTS: ORANGE", "name": "spice", "min": 50},
+  "herbs": {"group": "INGREDIENTS: ORANGE", "name": "herbs", "min": 60},
+  "glass bait": {"group": "BAITS", "name": "glass bait", "min": 40},
+  "niblet": {"group": "BAITS", "name": "niblet", "min": 40},
+  "silver bait": {"group": "BAITS", "name": "silver bait", "min": 45},
+  "squid": {"group": "BAITS", "name": "squid", "min": 50},
+  "jerky": {"group": "BAITS", "name": "jerky", "min": 60}
 };
 
 function parseData(data) {
@@ -198,11 +199,11 @@ function generateItemSummary(item) {
   const min = items[item]["min"];
   const cheapest = getLowestPrice(item);
   const nextCheapest = Object.keys(finds[item])[1];
-  const notEnoughCheapest = finds[item][cheapest].length < 2;
+  const isNotEnoughCheapest = finds[item][cheapest].length < 2;
   
   summary += `${cheapest} (${finds[item][cheapest].join(", ")})`;
   
-  if (cheapest == min && nextCheapest && notEnoughCheapest) {
+  if (cheapest == min && nextCheapest && isNotEnoughCheapest) {
     if (nextCheapest == min + 1)
       summary += ` & ${nextCheapest} (${finds[item][nextCheapest].join(", ")})`;
   }
@@ -210,12 +211,31 @@ function generateItemSummary(item) {
   return summary;
 }
 
+function populateGroups() {
+  for (let item of Object.values(items)) {
+    let {group, name} = item;
+    
+    if (group in groups)
+      groups[group].push(name);
+    else
+      groups[group] = [name];
+  }
+}
+
 function generateSummary() {
   let summary = "";
 
-  for (let item in items)
-    if (Object.keys(finds[item]).length > 0)
-      summary += `${item} ${generateItemSummary(item)};\n`;
+  populateGroups();
+
+  for (let group in groups) {
+    summary += `[${group}] `;
+
+    for (let item of groups[group])
+      if (Object.keys(finds[item]).length > 0)
+        summary += `${item} ${generateItemSummary(item)}; `;
+
+    summary += "\n\n";
+  }
 
   txtSummary.value = summary;
 }
