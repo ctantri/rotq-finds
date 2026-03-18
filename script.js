@@ -19,34 +19,35 @@ let groups = {};
 
 const items = {
   "violet": {"group": "FLOWERS", "name": "violet", "min": 10},
-  "tofu": {"group": "INGREDIENTS: GREEN", "name": "tofu", "min": 10},
-  "rice": {"group": "INGREDIENTS: GREEN", "name": "rice", "min": 10},
-  "noodles": {"group": "INGREDIENTS: GREEN", "name": "noodles", "min": 10},
-  "nut": {"group": "INGREDIENTS: GREEN", "name": "nut", "min": 10},
-  "egg": {"group": "INGREDIENTS: GREEN", "name": "egg", "min": 10},
-  "duck egg": {"group": "INGREDIENTS: GREEN", "name": "duck egg", "min": 10},
-  "seasoning": {"group": "INGREDIENTS: GREEN", "name": "seasoning", "min": 10},
-  "apple": {"group": "INGREDIENTS: GREEN", "name": "apple", "min": 10},
-  "scallion": {"group": "INGREDIENTS: GREEN", "name": "scallion", "min": 10},
-  "tomato": {"group": "INGREDIENTS: GREEN", "name": "tomato", "min": 10},
-  "flour": {"group": "INGREDIENTS: BLUE", "name": "flour", "min": 20},
-  "wine": {"group": "INGREDIENTS: BLUE", "name": "wine", "min": 20},
-  "pork": {"group": "INGREDIENTS: BLUE", "name": "pork", "min": 20},
-  "pepper": {"group": "INGREDIENTS: BLUE", "name": "pepper", "min": 20},
-  "cabbage": {"group": "INGREDIENTS: BLUE", "name": "cabbage", "min": 20},
-  "mushroom": {"group": "INGREDIENTS: BLUE", "name": "mushroom", "min": 20},
-  "bok choy": {"group": "INGREDIENTS: BLUE", "name": "bok choy", "min": 20},
-  "carrot": {"group": "INGREDIENTS: BLUE", "name": "carrot", "min": 20},
-  "chicken": {"group": "INGREDIENTS: PURPLE", "name": "chicken", "min": 30},
-  "shrimps": {"group": "INGREDIENTS: PURPLE", "name": "shrimps", "min": 30},
-  "roast pork": {"group": "INGREDIENTS: PURPLE", "name": "roast pork", "min": 30},
-  "eggplant": {"group": "INGREDIENTS: PURPLE", "name": "eggplant", "min": 50},
-  "peach petal": {"group": "INGREDIENTS: PURPLE", "name": "peach petal", "min": 50},
-  "beef": {"group": "INGREDIENTS: ORANGE", "name": "beef", "min": 50},
-  "mutton": {"group": "INGREDIENTS: ORANGE", "name": "mutton", "min": 50},
-  "duck": {"group": "INGREDIENTS: ORANGE", "name": "duck", "min": 50},
-  "spice": {"group": "INGREDIENTS: ORANGE", "name": "spice", "min": 50},
-  "herbs": {"group": "INGREDIENTS: ORANGE", "name": "herbs", "min": 60},
+  "blue rose": {"group": "FLOWERS", "name": "blue rose", "min": 0},
+  "tofu": {"group": "FOOD: GREEN", "name": "tofu", "min": 10},
+  "rice": {"group": "FOOD: GREEN", "name": "rice", "min": 10},
+  "noodles": {"group": "FOOD: GREEN", "name": "noodles", "min": 10},
+  "nut": {"group": "FOOD: GREEN", "name": "nut", "min": 10},
+  "egg": {"group": "FOOD: GREEN", "name": "egg", "min": 10},
+  "duck egg": {"group": "FOOD: GREEN", "name": "duck egg", "min": 10},
+  "seasoning": {"group": "FOOD: GREEN", "name": "seasoning", "min": 10},
+  "apple": {"group": "FOOD: GREEN", "name": "apple", "min": 10},
+  "scallion": {"group": "FOOD: GREEN", "name": "scallion", "min": 10},
+  "tomato": {"group": "FOOD: GREEN", "name": "tomato", "min": 10},
+  "flour": {"group": "FOOD: BLUE", "name": "flour", "min": 20},
+  "wine": {"group": "FOOD: BLUE", "name": "wine", "min": 20},
+  "pork": {"group": "FOOD: BLUE", "name": "pork", "min": 20},
+  "pepper": {"group": "FOOD: BLUE", "name": "pepper", "min": 20},
+  "cabbage": {"group": "FOOD: BLUE", "name": "cabbage", "min": 20},
+  "mushroom": {"group": "FOOD: BLUE", "name": "mushroom", "min": 20},
+  "bok choy": {"group": "FOOD: BLUE", "name": "bok choy", "min": 20},
+  "carrot": {"group": "FOOD: BLUE", "name": "carrot", "min": 20},
+  "chicken": {"group": "FOOD: PURPLE", "name": "chicken", "min": 30},
+  "shrimps": {"group": "FOOD: PURPLE", "name": "shrimps", "min": 30},
+  "roast pork": {"group": "FOOD: PURPLE", "name": "roast pork", "min": 30},
+  "eggplant": {"group": "FOOD: PURPLE", "name": "eggplant", "min": 50},
+  "peach petal": {"group": "FOOD: PURPLE", "name": "peach petal", "min": 50},
+  "beef": {"group": "FOOD: ORANGE", "name": "beef", "min": 50},
+  "mutton": {"group": "FOOD: ORANGE", "name": "mutton", "min": 50},
+  "duck": {"group": "FOOD: ORANGE", "name": "duck", "min": 50},
+  "spice": {"group": "FOOD: ORANGE", "name": "spice", "min": 50},
+  "herbs": {"group": "FOOD: ORANGE", "name": "herbs", "min": 60},
   "glass bait": {"group": "BAITS", "name": "glass bait", "min": 40},
   "niblet": {"group": "BAITS", "name": "niblet", "min": 40},
   "silver bait": {"group": "BAITS", "name": "silver bait", "min": 45},
@@ -128,6 +129,10 @@ function adjustMinPrice(event) {
   const min = items[item]["min"];
   inPrice.min = min;
   inPrice.value = min;
+  // Force blue rose to be priced at 0 to group all finds for it
+  // into one and make it easy for the price to be removed from
+  // summary later.
+  item == "blue rose" ? inPrice.max = 0 : inPrice.max = min + 10;
 }
 
 function loadItems() {
@@ -234,9 +239,12 @@ function generateSummary() {
       if (Object.keys(finds[item]).length > 0)
         summary += `${item} ${generateItemSummary(item)}; `;
 
-    summary += "\n\n";
+    // End each group with a period and newlines.
+    summary = summary.replace(/; $/, ".\n\n");
   }
 
+  // Remove blue rose price of 0 from the summary.
+  summary = summary.replace(/ 0/, "");
   txtSummary.value = summary;
 }
 
