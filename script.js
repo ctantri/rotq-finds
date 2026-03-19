@@ -7,6 +7,8 @@ const slctPlayer = document.getElementById("player");
 const fldItem = document.getElementById("item");
 const ulItemList = document.getElementById("item-list");
 const inPrice = document.getElementById("price");
+const spnLastSave = document.getElementById("last-save-span");
+const btnUndo = document.getElementById("undo-button");
 const txtSummary = document.getElementById("summary-text");
 const sections = document.getElementsByTagName("section");
 const navPlayers = document.getElementById("nav-players");
@@ -16,6 +18,7 @@ let myGuild = "";
 let players = {};
 let finds = {};
 let groups = {};
+let saveStack = [];
 
 const items = {
   "violet": {"group": "FLOWERS", "name": "violet", "min": 10},
@@ -169,7 +172,52 @@ function getLowestPrice(item) {
   return Object.keys(finds[item])[0];
 }
 
+function updateSaveDisplay() {
+  if (saveStack.length > 0) {
+    let {item, price, player} = saveStack.at(-1);
+    spnLastSave.innerText = `Last save: ${player} - ${item} ${price}`;
+  } else
+    spnLastSave.innerText = "Last save: N/A";
+}
+
+function updateItemSummaryDisplay(item) {
+  // Display current lowest price and corresponding finds so far 
+  // next to the item label.
+  const span = document.getElementById(`item-${item}-summary`);
+  span.innerText = generateItemSummary(item);
+}
+
+function addSave(item, price, player) {
+  saveStack.push({
+    "item": item,
+    "price": price,
+    "player": player
+  });
+
+  updateSaveDisplay();
+  updateItemSummaryDisplay(item);
+  btnUndo.disabled = false;
+}
+
+function undoSave() {
+  let {item, price, player} = saveStack.pop();
+  if (finds[item][price].length == 1)
+    delete finds[item][price];
+  else {
+    const index = finds[item][price].indexOf(player);
+    finds[item][price].splice(index, 1);
+  }
+
+  updateSaveDisplay();
+  updateItemSummaryDisplay(item);
+
+  if (saveStack.length == 0)
+    btnUndo.disabled = true;
+}
+
 function save(event) {
+  event.preventDefault();
+
   const data = new FormData(frmFinds);
   const item = data.get("item");
   const price = data.get("price");
@@ -187,19 +235,17 @@ function save(event) {
   else
     finds[item][price] = [player];
 
-  // Display current lowest price and total number of finds so far 
-  // next to the item label.
-  const span = document.getElementById(`item-${item}-summary`);
-  span.innerText = generateItemSummary(item);
+  addSave(item, price, player);
 
   const option = document.getElementById(`item-${item}`);
   option.checked = false;
-
-  event.preventDefault();
 }
 
 function generateItemSummary(item) {
   let summary = "";
+
+  if (Object.keys(finds[item]).length == 0)
+    return summary;
 
   const min = items[item]["min"];
   const cheapest = getLowestPrice(item);
@@ -268,5 +314,9 @@ navFinds.addEventListener("click", showSection);
 navSummary.addEventListener("click", showSection);
 btnLoadPlayers.addEventListener("click", loadPlayers);
 frmFinds.addEventListener("submit", save);
+btnUndo.addEventListener("click", undoSave);
 btnSummarise.addEventListener("click", generateSummary);
+
+btnUndo.disabled = true;
+
 loadItems();
