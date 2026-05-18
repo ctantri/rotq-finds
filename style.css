@@ -3,7 +3,7 @@
 }
 
 :root {
-  font-size: 1rem;
+  font-size: 1.1rem;
   --color-primary: #4A5759;
   --color-secondary: #B0C4B1;
   --color-accent: #F4ACB7;
@@ -19,35 +19,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#navbar {
-  position: fixed;
-  top: 0;
-  left: var(--offset);
-  width: var(--navbar-width);
-  height: 100%;
-  background-color: var(--color-secondary);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1em;
-}
-
-#navbar > p {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  color: var(--color-primary);
-  font-size: 1.5em;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-}
-
 main {
   position: absolute;
-  top:0;
-  left: calc(2 * var(--offset) + var(--navbar-width));
-  width: calc(100% - (3 * var(--offset) + var(--navbar-width)));
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* left: calc(2 * var(--offset) + var(--navbar-width)); */
+  /* width: calc(100% - (3 * var(--offset) + var(--navbar-width))); */
 }
 
 section {
@@ -55,20 +33,55 @@ section {
 }
 
 textarea {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: solid 1px var(--color-secondary);
+  padding: 0.75em;
+}
+
+button {
+  background-color: var(--color-text);
   color: var(--color-primary);
+  border: solid 1px var(--color-text);
+  border-radius: 0.8em;
+  padding: 0.25em 1em;
+  font-size: 1em;
+}
+
+#navbar {
+  position: fixed;
+  top: calc(100vh - 6em);
+  left: 0;
+  width: 100%;
+  /* background-color: var(--color-secondary); */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1em;
+}
+
+#navbar > button {
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  color: var(--color-primary);
+  font-size: 1.1em;
+  /* font-weight: bold; */
+  text-align: center;
+  cursor: pointer;
 }
 
 #players-textarea {
   display: block;
   margin: 1em;
-  padding: 0.25em;
 }
 
 #item-list {
-  columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
 }
 
 li {

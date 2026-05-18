@@ -276,17 +276,19 @@ function populateGroups() {
 function generateSummary() {
   let summary = "";
 
-  populateGroups();
-
   for (let group in groups) {
+    // Add newlines if not the first group
+    if (summary.length > 0)
+      summary += "\n\n";
+    
     summary += `[${group}] `;
 
     for (let item of groups[group])
       if (Object.keys(finds[item]).length > 0)
-        summary += `${item} ${generateItemSummary(item)}; `;
+        summary += `${item.toUpperCase()} ${generateItemSummary(item)} • `;
 
-    // End each group with a period and newlines.
-    summary = summary.replace(/; $/, ".\n\n");
+    // End each group with a period.
+    summary = summary.replace(/ • $/, ".");
   }
 
   // Remove blue rose price of 0 from the summary.
@@ -320,3 +322,4 @@ btnSummarise.addEventListener("click", generateSummary);
 btnUndo.disabled = true;
 
 loadItems();
+populateGroups();
